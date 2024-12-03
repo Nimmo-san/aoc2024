@@ -5,16 +5,24 @@ import re
 filename = "day3.txt"
 
 final = []
-
+mul_enabled = True
 
 with open(filename, mode='r') as file:
     lines  = file.read()
-    match = re.findall(r'mul\(\d{1,3},\d{1,3}\)', lines)
+    match = re.findall(r"mul\(\d{1,3},\d{1,3}\)|\bdo\(\)|\bdon't\(\)", lines)
 
-    for num in match:
-        left = num.split(',')[0].split('(')[1]
-        right = num.split(',')[1].split(')')[0]
-    
-        final.append(int(left) * int(right))
+    for instruction in match:
+        if instruction.startswith("mul"):
+            left = int(instruction.split(',')[0].split('(')[1])
+            right = int(instruction.split(',')[1].split(')')[0])
 
+            if mul_enabled:
+                final.append(left * right)
+        
+        elif instruction.startswith("do()"):
+            mul_enabled = True
+        
+        elif instruction.startswith("don't"):
+            mul_enabled = False
+            
 print(sum(final))
