@@ -29,5 +29,17 @@ def report(inner):
     return increasing or decreasing
 
 
-sum_reports = sum([1 for inner in lines if report(inner)])
+def report_with_dapmner(inner):
+    if report(inner):
+        return True
+    
+    for i in range(len(inner)):
+        modified = inner[:i] + inner[i+1:]
+
+        if report(modified):
+            return True
+    
+    return False
+
+sum_reports = sum([1 for inner in lines if report_with_dapmner(inner)])
 print(sum_reports)
