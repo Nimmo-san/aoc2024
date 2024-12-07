@@ -59,6 +59,9 @@ for row in range(rows):
 # print(len(visited))
 
 
+
+
+##### INCOMPLETE
 # FOR PART 2, PULLING MY HAIR OUT AS I WROTE THIS 
 def simulate_guard_loop(grid, start_pos, facing_direction):
     current_pos = start_pos
