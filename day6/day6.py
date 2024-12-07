@@ -65,13 +65,12 @@ for row in range(rows):
 def simulate_guard_loop(grid, start_pos, facing_direction):
     current_pos = start_pos
     visited = set()
-    loop_positions = set()
     steps = 0
-    max_steps = 100000
+    max_steps = 1000000
 
     while steps < max_steps:
         if (current_pos, facing_direction) in visited:
-            loop_positions.add(current_pos)
+            grid[current_pos[0]][current_pos[1]] = '.'
             return True
 
         visited.add((current_pos, facing_direction))
