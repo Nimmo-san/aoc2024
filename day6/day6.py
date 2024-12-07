@@ -34,10 +34,8 @@ for row in range(rows):
 #     print("\n")
 
 # current_pos = start_pos
-
 # visited = set()
 # visited.add(start_pos)
-
 # next_pos = start_pos
 
 # while (0 <= next_pos[0] < rows and 0 <= next_pos[1] < cols):
@@ -61,7 +59,7 @@ for row in range(rows):
 # print(len(visited))
 
 
-# FOR PART 2
+# FOR PART 2, PULLING MY HAIR OUT AS I WROTE THIS 
 def simulate_guard_loop(grid, start_pos, facing_direction):
     current_pos = start_pos
     visited = set()
