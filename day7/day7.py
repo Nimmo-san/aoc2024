@@ -13,18 +13,24 @@ for line in data:
     eval_num, *numbers = map(int, line.replace(':', '').split())
     # print(eval_num, numbers)
 
-    operator_combinations = product(['+', '*'], repeat=len(numbers)-1)
+    operator_combinations = product(['*', '+'], repeat=len(numbers)-1)
+    match = False
+    # print(list(operator_combinations))
     result = 0
-    if result == eval_num:
-        for operator in operator_combinations:
-            result = numbers[0]
-            for i in range(len(operator)):
-                if operator[i] == '+':
-                    result += numbers[i+1]
-                elif operator[i] == '*':
-                    result *= numbers[i+1]
+    for operator in operator_combinations:
+        result = numbers[0]
+        for i in range(len(operator)):
+            if operator[i] == '+':
+                result += numbers[i+1]
+            elif operator[i] == '*':
+                result *= numbers[i+1]
         
+        if result == eval_num:
+            match = True
+            break
+        
+    if match:
         total += eval_num
 
-print(eval_num)
+print(total)
 
