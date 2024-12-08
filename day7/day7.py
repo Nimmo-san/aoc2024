@@ -13,7 +13,7 @@ for line in data:
     eval_num, *numbers = map(int, line.replace(':', '').split())
     # print(eval_num, numbers)
 
-    operator_combinations = product(['*', '+'], repeat=len(numbers)-1)
+    operator_combinations = product(['*', '+', '||'], repeat=len(numbers)-1)
     match = False
     # print(list(operator_combinations))
     result = 0
@@ -24,7 +24,10 @@ for line in data:
                 result += numbers[i+1]
             elif operator[i] == '*':
                 result *= numbers[i+1]
+            elif operator[i] == '||':
+                result = int(str(result) + str(numbers[i+1]))
         
+        # print(result)
         if result == eval_num:
             match = True
             break
