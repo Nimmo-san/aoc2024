@@ -1,4 +1,5 @@
 from pprint import pprint
+from collections import deque
 
 filename = "day8/day8.txt"
 
@@ -23,32 +24,27 @@ for row in range(rows):
 
 antinodes = set()
 
-for freq, locations in antennas.items():
-    n = len(locations)
-    if n < 2:
-        continue
+for freq, positions in antennas.items():
+    n = len(positions)
+    for i in range(n - 1):
+        for j in range(i + 1, n):
+            loc_diff = (
+                positions[i][0] - positions[j][0],
+                positions[i][1] - positions[j][1]
+            )
+            # print(loc_diff)
+            for loc in (positions[i], positions[j]):
+                new_loc = (loc[0] + loc_diff[0], loc[1] + loc_diff[1])
 
+                if 0 <= new_loc[0] < rows and 0 <= new_loc[1] < cols and grid[new_loc[0]][new_loc[1]] != freq:
+                    antinodes.add(new_loc)
+                    grid[new_loc[0]][new_loc[1]] = '#'
 
-    for i in range(n):
-        for j in range(i+1, n):
+                # maybe consider a neg
+                new_loc_neg = (loc[0] - loc_diff[0], loc[1] - loc_diff[1])
+                if 0 <= new_loc_neg[0] < rows and 0 <= new_loc_neg[1] < cols and grid[new_loc_neg[0]][new_loc_neg[1]] != freq:
+                    antinodes.add(new_loc_neg)
+                    grid[new_loc_neg[0]][new_loc_neg[1]] = '#'
+                
 
-            r1, c1 = locations[i]
-            r2, c2 = locations[j]
-
-            mid_r = (r1+r2)/2
-            mid_c = (c1+c2)/2
-
-            if (r1 + r2) % 2 == 0 and (c1 + c2) % 2 == 0:
-                antinode_r = int(mid_r)
-                antinode_c = int(mid_c)
-
-                dr = antinode_r - r1
-                dc = antinode_c - c1
-
-                antinode1 = (antinode_r - dr, antinode_c - dc)
-                antinode2 = (antinode_r + dr, antinode_c + dc)
-
-                if 0 <= antinode1[0] < rows and 0 <= antinode1[1] < cols:
-                    antinodes.add(antinode1)
-                if 0 <= antinode2[0] < rows and 0 <= antinode2[1] < cols:
-                    antinodes.add(antinode2)
+print(len(antinodes))
