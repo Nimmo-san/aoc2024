@@ -1,7 +1,5 @@
 
 
-import copy
-
 filename = 'day9/day9.txt'
 
 with open(filename, mode='r') as file:
