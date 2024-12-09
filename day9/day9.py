@@ -35,7 +35,13 @@ def compact_part1(fragment):
 
 def compact_part2(fragment, file_lengths):
     for file_id in sorted(file_lengths.keys(), reverse=True):
+        print("each fragment iteration", ''.join(fragment))
+
         file_length = file_lengths[file_id]
+
+        for i in range(len(fragment)):
+            if fragment[i] == str(file_id):
+                fragment[i] = '.'
 
         free_spans = []
         start = None
@@ -51,26 +57,39 @@ def compact_part2(fragment, file_lengths):
 
         if start is not None and len(fragment) - start >= file_length:
             free_spans.append((start, len(fragment)))
-        
-        # free_spans.sort()
 
-        print(f"File {file_id} (length {file_length}): Free spans {free_spans}")
-    
+        free_spans.sort()
+
+        print(f"file {file_id} (length {file_length}): Free spans {free_spans}")
+        
+        if free_spans:
+            start, _ = free_spans[0]
+            
+            for i in range(file_length):
+                fragment[start + i] = str(file_id)
+
+            print(f"after moving file {file_id}: {''.join(fragment)}")
+        else:
+            print(f"file {file_id} could not be moved")
     return fragment
 
 
 total = 0
 fragment, file_lengths = disk_mapping(disk)
-# print("initial fragment", ''.join(fragment))
-# print("file_lengths", file_lengths)
+print("initial fragment", ''.join(fragment))
+print("file_lengths", file_lengths)
+
+
+# PART 1
 # result = compact_part1(fragment)
-result = compact_part2(fragment, file_lengths)
 
+# PART 2
+compact_part2(fragment, file_lengths)
 
-for i, num in enumerate(result):
+print("final fragment", ''.join(fragment))
+
+for i, num in enumerate(fragment):
     if num != '.':
         total += i * int(num)
 
 print(total)
-assert total == 2858
-
