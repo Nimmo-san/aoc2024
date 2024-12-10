@@ -42,15 +42,15 @@ for row, col in trailheads:
 print(total)
 
 
-# PART 1 USING DFS
+# PART 1 and PART 2 USING DFS
 def sum_of_trail_heads_using_dfs(grid):
     rows, cols = len(grid), len(grid[0])
     total = 0
     
     def dfs(cx, cy, seen):
-        if (cx, cy) in seen:
-            return 0
-        seen.add((cx, cy))
+        # if (cx, cy) in seen:
+        #     return 0
+        # seen.add((cx, cy))
 
         if grid[cx][cy] == 9:
             return 1
