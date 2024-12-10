@@ -40,3 +40,36 @@ for row, col in trailheads:
     total += sum_of_trail_heads(grid, row, col)
 
 print(total)
+
+
+# PART 1 USING DFS
+def sum_of_trail_heads_using_dfs(grid):
+    rows, cols = len(grid), len(grid[0])
+    total = 0
+    
+    def dfs(cx, cy, seen):
+        if (cx, cy) in seen:
+            return 0
+        seen.add((cx, cy))
+
+        if grid[cx][cy] == 9:
+            return 1
+        
+        score = 0
+        for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+            nx, ny = cx + dx, cy + dy
+
+            if 0 <= nx < rows and 0 <= ny < cols and (nx, ny) not in seen:
+                if grid[nx][ny] == grid[cx][cy] + 1:
+                    score += dfs(nx, ny, seen)
+        
+        return score
+
+    for row in range(rows):
+        for col in range(cols):
+            if grid[row][col] == 0:
+                seen = set()
+                total += dfs(row, col, seen)
+    return total
+
+print(sum_of_trail_heads_using_dfs(grid))
