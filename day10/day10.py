@@ -22,8 +22,8 @@ def sum_of_trail_heads(grid, row, col):
     while len(queue) > 0:
         nr, nc = queue.popleft()
         for dr, dc in [(nr - 1, nc), (nr, nc + 1), (nr + 1, nc), (nr, nc - 1)]:
-            if dr < 0 or dc < 0 or dr >= rows or dc >= cols: continue
-            if grid[dr][dc] != grid[nr][nc] + 1: continue
+            if dr < 0 or dc < 0 or dr >= rows or dc >= cols: continue  # noqa: E701
+            if (grid[dr][dc] != grid[nr][nc] + 1): continue  # noqa: E701
 
             # Part 2
             # if (dr, dc) in seen: continue
