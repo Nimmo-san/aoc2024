@@ -11,7 +11,7 @@ rows = len(grid)
 cols = len(grid[0])
 
 
-# USING BFS
+# PART 1 and PART 2 USING BFS
 trailheads = [(row, col) for row in range(rows) for col in range(cols) if grid[row][col] == 0]
 def sum_of_trail_heads(grid, row, col):
     queue = deque([(row, col)])
@@ -25,7 +25,8 @@ def sum_of_trail_heads(grid, row, col):
             if dr < 0 or dc < 0 or dr >= rows or dc >= cols: continue
             if grid[dr][dc] != grid[nr][nc] + 1: continue
 
-            if (dr, dc) in seen: continue
+            # Part 2
+            # if (dr, dc) in seen: continue
 
             seen.add((dr, dc))
 
