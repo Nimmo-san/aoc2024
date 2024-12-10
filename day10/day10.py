@@ -11,6 +11,9 @@ rows = len(grid)
 cols = len(grid[0])
 
 
+def in_bounds(dr, dc):
+    return (dr < 0 or dc < 0 or dr >= rows or dc >= cols)
+
 # PART 1 and PART 2 USING BFS
 trailheads = [(row, col) for row in range(rows) for col in range(cols) if grid[row][col] == 0]
 def sum_of_trail_heads(grid, row, col):
@@ -22,7 +25,7 @@ def sum_of_trail_heads(grid, row, col):
     while len(queue) > 0:
         nr, nc = queue.popleft()
         for dr, dc in [(nr - 1, nc), (nr, nc + 1), (nr + 1, nc), (nr, nc - 1)]:
-            if dr < 0 or dc < 0 or dr >= rows or dc >= cols: continue  # noqa: E701
+            if in_bounds(dr, dc): continue  # noqa: E701
             if (grid[dr][dc] != grid[nr][nc] + 1): continue  # noqa: E701
 
             # Part 2
