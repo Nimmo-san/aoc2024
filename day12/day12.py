@@ -7,16 +7,19 @@ with open(filename, mode='r') as file:
     grid = [list(line.strip()) for line in file]
 
 
+
+# PART 1
 def calculate_total_price_(grid):
     rows = len(grid)
     cols = len(grid[0])
 
     visited = set()
+    edges = set()
 
     def dfs(x, y, plant_type):
         stack = [(x, y)]
         area = 0
-        perimeter = 0
+        # perimeter = 0
 
         while stack:
             cx, cy = stack.pop()
@@ -29,24 +32,26 @@ def calculate_total_price_(grid):
             for dx, dy in [(-1, 0), (1, 0), (0, 1), (0, -1)]:
                 nx, ny = cx + dx, cy + dy
 
+                edge = (min(cx, nx), min(cy, ny), max(cx, nx), max(cy, ny))
                 if 0 <= nx < rows and 0 <= ny < cols:
                     if grid[nx][ny] == plant_type and (nx, ny) not in visited:
                         stack.append((nx, ny))
                     elif grid[nx][ny] != plant_type:
-                        perimeter += 1
+                        edges.add(edge)
+                        # perimeter += 1
                 else:
-                    perimeter += 1
-        return area, perimeter
+                    edges.add(edge)
+                    # perimeter += 1
+        return area, len(edges) # perimeter
     
     total_price = 0
     for row in range(rows):
         for col in range(cols):
-            # print("visiting", row, col)
             if (row, col) not in visited:
-                area, perimeter = dfs(row, col, grid[row][col])
-                total_price += area * perimeter
-                # print(f"total price for ({row},{col}) - {total_price}" )
-            # print(total_price)
+                # area, perimeter = dfs(row, col, grid[row][col])
+                # total_price += area * perimeter
+                area, num_sides = dfs(row, col, grid[row][col])
+                total_price += area * num_sides
     return total_price
 
 print(calculate_total_price_(grid))
