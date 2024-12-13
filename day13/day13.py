@@ -60,7 +60,7 @@ def find_min_cost(prize, ba, bb, max_presses=100):
     for a in range(max_presses + 1):
         for b in range(max_presses + 1):
             if a * ax + b * bx == px and a * ay + b * by == py:
-                cost = 3 * a + 1 * b
+                cost = 3 * a + b
                 best_cost = min(best_cost, cost)
 
     return best_cost if best_cost != float('inf') else None
@@ -91,5 +91,10 @@ def solve_(machines):
 
 
 machines = read_input()
+offset = 10**13
+for machine in machines:
+    px, py = machine['Prize']
+    machine['Prize'] = (px + offset, py + offset)
+
 total_prize, total_cost = solve_(machines)
 print(total_prize, total_cost)
