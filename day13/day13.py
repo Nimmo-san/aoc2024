@@ -38,13 +38,6 @@ def read_input():
     return machines
 
 
-def read_input_using_regex():
-    machines = []
-    for line in open(filename):
-        machines.append(tuple(map(int, re.findall(r'\d+', line))))
-    
-    return machines
-
 def find_min_cost(prize, ba, bb, max_presses=100):
     px, py = prize
     ax, ay = ba
@@ -74,10 +67,6 @@ def find_min_cost(prize, ba, bb, max_presses=100):
     return best_cost if best_cost != float('inf') else None
 
 
-def e_gcd(a, b):
-    pass
-
-
 def solve_(machines):
     total_cost = 0
     total_prize = 0
@@ -98,8 +87,8 @@ def solve_(machines):
     return total_prize, total_cost
 
 
-machines = read_input_using_regex()
-print(machines)
+# machines = read_input_using_regex()
+# print(machines)
 # offset = 10**13
 # for machine in machines:
 #     px, py = machine['Prize']
@@ -107,3 +96,21 @@ print(machines)
 
 # total_prize, total_cost = solve_(machines)
 # print(total_prize, total_cost)
+
+
+total_cost = 0
+for data in open(filename).read().split("\n\n"):
+    ax, ay, bx, by, px, py = map(int, re.findall(r'\d+', data))
+
+    px += 10000000000000
+    py += 10000000000000
+
+    # print(ax, ay, bx, by, px, py)
+    b_a = (px * by - py * bx) / (ax * by - ay * bx)
+    b_b = (px - b_a * ax) / bx
+
+    # print(b_a, b_b)
+    if b_a % 1 == b_b % 1 == 0:
+        total_cost += int(3 * b_a + b_b)
+
+print(total_cost)
