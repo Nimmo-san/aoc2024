@@ -18,12 +18,14 @@ for line in open(filename):
     robots.append(tuple(map(int, re.findall(r'-?\d+', line))))
 
 
+# PART 1
 # for px, py, vx, vy in robots:
 #     x_mod = (px + vx * 100) % W
 #     y_mod = (py + vy * 100) % H
 #     output.append((x_mod, y_mod))
 
 
+# PART 2
 # min_area = float('inf')
 min_safety_factor = float('inf')
 min_time = None
