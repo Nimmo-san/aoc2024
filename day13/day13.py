@@ -1,8 +1,9 @@
+import re
 from egcd import egcd
 
+filename = "day13/input.txt"
 
 def read_input():
-    filename = "day13/input.txt"
 
     machines = []
     with open(filename, mode='r') as file:
@@ -36,6 +37,13 @@ def read_input():
             machines.append(machine)
     return machines
 
+
+def read_input_using_regex():
+    machines = []
+    for line in open(filename):
+        machines.append(tuple(map(int, re.findall(r'\d+', line))))
+    
+    return machines
 
 def find_min_cost(prize, ba, bb, max_presses=100):
     px, py = prize
@@ -90,11 +98,12 @@ def solve_(machines):
     return total_prize, total_cost
 
 
-machines = read_input()
-offset = 10**13
-for machine in machines:
-    px, py = machine['Prize']
-    machine['Prize'] = (px + offset, py + offset)
+machines = read_input_using_regex()
+print(machines)
+# offset = 10**13
+# for machine in machines:
+#     px, py = machine['Prize']
+#     machine['Prize'] = (px + offset, py + offset)
 
-total_prize, total_cost = solve_(machines)
-print(total_prize, total_cost)
+# total_prize, total_cost = solve_(machines)
+# print(total_prize, total_cost)
