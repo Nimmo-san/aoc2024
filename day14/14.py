@@ -27,7 +27,8 @@ for px, py, vx, vy in robots:
 
 for px, py in output:
     # print(px, py)
-    if px == (W - 1)//2 or py == (H - 1)//2: continue  # noqa: E701
+    # Seems like this check doesnt matter
+    # if px == (W - 1)//2 or py == (H - 1)//2: continue  # noqa: E701
 
     if px < (W - 1)//2 and py < (H - 1)//2:
         q1 += 1
