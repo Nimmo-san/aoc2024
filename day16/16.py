@@ -124,13 +124,16 @@ def dijkstra_with_rotation_part2(grid, start, end):
             seen_states.add((x, y))
             all_states.append(last)
     
-    print(len(seen_states))
+    return len(seen_states)
+
+
+start, end = parse_maze(grid)
+
 # part 1
-# start, end = parse_maze(grid)
 # min_score = dijkstra_with_rotation_part1(grid, start, end)
 # print(min_score)
 
 # part 2
-start, end = parse_maze(grid)
-dijkstra_with_rotation_part2(grid, start, end)
+score = dijkstra_with_rotation_part2(grid, start, end)
+print(score)
 
