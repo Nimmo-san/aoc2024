@@ -42,7 +42,7 @@ def dijkstra_with_rotation(grid, start, end):
         visited.add((x, y, dr, dc))
 
         if (x, y) == end:
-            print(score)
+            return score
             break
 
         for new_score, nr, nc, ndr, ndc in [(score + 1, x + dr, y + dc, dr, dc), (score + 1000, x, y, dc, -dr), (score + 1000, x, y, -dc, dr)]:
@@ -78,4 +78,5 @@ def dijkstra_with_rotation(grid, start, end):
     
 
 start, end = parse_maze(grid)
-print(dijkstra_with_rotation(grid, start, end))
+min_score = dijkstra_with_rotation(grid, start, end)
+print(min_score)
