@@ -1,4 +1,7 @@
+
 import heapq
+from collections import deque
+
 
 filename = "day16/input.txt"
 
@@ -28,8 +31,7 @@ def parse_maze(grid):
     return start, end
 
 
-def dijkstra_with_rotation(grid, start, end):
-    # rows, cols = len(grid), len(grid[0])
+def dijkstra_with_rotation_part1(grid, start, end):
     pq = []
     heapq.heappush(pq, (0, start[0], start[1], 0, 1))
     
@@ -45,7 +47,7 @@ def dijkstra_with_rotation(grid, start, end):
             return score
             break
 
-        for new_score, nr, nc, ndr, ndc in [(score + 1, x + dr, y + dc, dr, dc), (score + 1000, x, y, dc, -dr), (score + 1000, x, y, -dc, dr)]:
+        for new_score, nr, nc, ndr, ndc in [(score + MOVE_COST, x + dr, y + dc, dr, dc), (score + ROTATE_COST, x, y, dc, -dr), (score + ROTATE_COST, x, y, -dc, dr)]:
             if grid[nr][nc] == '#':
                 continue
             if (nr, nc, ndr, ndc) in visited:
@@ -77,6 +79,58 @@ def dijkstra_with_rotation(grid, start, end):
         # heapq.heappush(pq, (score + ROTATE_COST, x, y, new_direction_ccw))
     
 
+def dijkstra_with_rotation_part2(grid, start, end):
+    pq = []
+    lowest_score = {(start[0], start[1], 0, 1): 0}
+    backtracking = {}
+    last_state = set()
+    best_score = float('inf')
+    heapq.heappush(pq, (0, start[0], start[1], 0, 1, None, None, None, None))
+    
+    while pq:
+        score, x, y, dr, dc, pr, pc, pdr, pdc = heapq.heappop(pq)
+
+        if score > lowest_score.get((x, y, dr, dc), float('inf')):
+            continue
+        lowest_score[(x, y, dr, dc)] = score
+
+        if (x, y) == end:
+            if score > best_score:
+                break
+            best_score = score
+            last_state.add((x, y, dr, dc))
+
+        if (x, y, dr, dc) not in backtracking:
+            backtracking[(x, y, dr, dc)] = set()
+        
+        backtracking[(x, y, dr, dc)].add((pr, pc, pdr, pdc))
+        for new_score, nr, nc, ndr, ndc in [(score + MOVE_COST, x + dr, y + dc, dr, dc), (score + ROTATE_COST, x, y, dc, -dr), (score + ROTATE_COST, x, y, -dc, dr)]:
+            if grid[nr][nc] == '#':
+                continue
+            if score > lowest_score.get((nr, nc, ndr, ndc), float('inf')):
+                continue
+
+            heapq.heappush(pq, (new_score, nr, nc, ndr, ndc, x, y, dr, dc))
+        
+    seen_states = set(last_state)
+    all_states = deque(last_state)
+
+    while all_states:
+        value = all_states.popleft()
+        for last in backtracking.get(value, []):
+            if last in seen_states:
+                continue
+            x, y, _, _ = last
+            seen_states.add((x, y))
+            all_states.append(last)
+    
+    print(len(seen_states))
+# part 1
+# start, end = parse_maze(grid)
+# min_score = dijkstra_with_rotation_part1(grid, start, end)
+# print(min_score)
+
+# part 2
 start, end = parse_maze(grid)
-min_score = dijkstra_with_rotation(grid, start, end)
-print(min_score)
+dijkstra_with_rotation_part2(grid, start, end)
+
