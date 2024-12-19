@@ -1,5 +1,4 @@
 from collections import deque
-from pprint import pprint
 
 filename = "day18/input.txt"
 
