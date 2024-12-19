@@ -14,14 +14,14 @@ check = {}
 def find_target(target, words):
     if target in check:
         return check[target]
-    ok = False
+    ok = 0
 
     if not target:
-        ok = True
+        ok = 1
 
     for word in words:
-        if target.startswith(word) and find_target(target[len(word):], words):
-            ok = True
+        if target.startswith(word):
+            ok += find_target(target[len(word):], words)
 
     check[target] = ok
     return ok
@@ -30,9 +30,7 @@ def find_target(target, words):
 
 total = 0
 for target in targets.split('\n'):
-    
-    if find_target(target, words):
-        total += 1
+    total += find_target(target, words)
     # print(target, words)
 
 print(total)
