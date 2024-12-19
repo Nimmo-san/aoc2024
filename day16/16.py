@@ -45,7 +45,6 @@ def dijkstra_with_rotation_part1(grid, start, end):
 
         if (x, y) == end:
             return score
-            break
 
         for new_score, nr, nc, ndr, ndc in [(score + MOVE_COST, x + dr, y + dc, dr, dc), (score + ROTATE_COST, x, y, dc, -dr), (score + ROTATE_COST, x, y, -dc, dr)]:
             if grid[nr][nc] == '#':
