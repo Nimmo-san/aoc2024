@@ -11,7 +11,7 @@ words = words.split(', ')
 
 
 check = {}
-def find_target(target, words):
+def find_target(target: str, words):
     if target in check:
         return check[target]
     ok = 0
